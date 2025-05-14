@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .red-button {
+    @apply px-4 rounded-full border-[3px]  w-64 h-10 text-[#DA291C] border-[#DA291C] ;
+  }
+
+  .red-button:hover {
+    @apply bg-[#DA291C] text-white shadow-lg;
+  }
+
+  .red-button-shadow:hover {
+    box-shadow: 0px -4px 6px 0px rgba(45, 45, 45, 0.2) inset, 0px 6px 24px 0px rgba(131, 23, 15, 0.74);
+    transition: box-shadow 0.3s ease;
+  }
+
+}
