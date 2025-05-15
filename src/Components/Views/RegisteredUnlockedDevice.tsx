@@ -42,11 +42,11 @@ const RegisteredUnlockedDevice = ({
         ) : null}
         <img
           src={
-            data.homologacion === "5G e inferiores" || "4G e inferiores"
+            data.homologacion === "4G e inferiores" || data.homologacion === "5G e inferiores"
               ? img_5g
-              : data.homologacion === "2G"
+              : data.homologacion == "2G"
               ? img_2g
-              : data.homologacion === "4G y 2G, sin soporte de 3G"
+              : data.homologacion == "4G y 2G, sin soporte de 3G"
               ? img_no3g
               : ""
           }

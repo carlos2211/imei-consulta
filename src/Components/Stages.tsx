@@ -8,6 +8,8 @@ import EnrolledLockedDevice from "./Views/EnrolledLockedDevice";
 import RegisteredUnlockedDevice from "./Views/RegisteredUnlockedDevice";
 import UnregisteredDevice from "./Views/UnregisteredDevice";
 
+import useScreenSize from "../Hooks/useScreenSize";
+
 const Stages = ({
   language,
   onRenderFinal,
@@ -16,7 +18,8 @@ const Stages = ({
   onRenderFinal: (componente: JSX.Element) => void;
 }) => {
   const [imei, setImei] = useState("");
-  const isMobile = useIsMobile(501);
+  // const isMobile = useIsMobile(640);
+    const { isMobile, isTablet, isDesktop } = useScreenSize();
   const t = translations[language];
 
   const handleClick = async () => {
@@ -156,7 +159,80 @@ const Stages = ({
             ))}
           </div>
         </div>
-      ) : (
+      ) 
+      : isTablet ? (
+        <div className="relative flex flex-col items-start max-w-5xl w-full mb-10">
+          <div className="relative w-full max-w-5xl flex justify-between items-center ">
+            <div className="absolute left-[12.5%] right-[12.5%] h-1 z-0 bg-amber-700" />
+            {[1, 2, 3, 4].map((num) => (
+              <div
+                key={num}
+                className="relative z-10 flex flex-col items-center w-1/4"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#008C67] text-white flex items-center justify-center font-bold mb-2">
+                  {num}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-4 gap-6 w-full max-w-5xl text-center">
+            <div>
+              <p className="text-[#008C67] h-12">{t.steps[0]}</p>
+              <img src={imgStage1D} alt="Stage 1" className="ml-4 w-37 mt-12" />
+            </div>
+            <div>
+              <p className="text-[#008C67] h-12">{t.steps[1]}</p>
+              <img src={imgStage2D} alt="Stage 2" className="ml-4 mt-12 w-37" />
+            </div>
+            <div>
+              <p className="text-[#008C67] h-12">{t.steps[2]}</p>
+              <img src={imgStage3D} alt="Stage 3" className="ml-4 mt-12 w-37" />
+            </div>
+            <div>
+              <p className="text-[#008C67] h-12">{t.steps[3]}</p>
+              <div className="flex flex-col items-center gap-2 mt-14 w">
+                <input
+                  className="border border-black px-2 py-1 rounded-xl w-32 h-10 text-center"
+                  type="text"
+                  value={imei}
+                  onChange={(e) => {
+                    const cleaned = e.target.value.replace(/\D/g, "");
+                    setImei(cleaned);
+                  }}
+                  onKeyDown={(e) => {
+                    const allowedKeys = [
+                      "Backspace",
+                      "Tab",
+                      "ArrowLeft",
+                      "ArrowRight",
+                      "Delete",
+                    ];
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "v")
+                      return;
+                    if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const pasted = e.clipboardData.getData("Text");
+                    const cleaned = pasted.replace(/\D/g, ""); 
+                    setImei((prev) => (prev + cleaned).substring(0, 15));
+                  }}
+                  placeholder={t.inputLabel}
+                  maxLength={15}
+                />
+
+                <button className="red-button w-32 h-10" onClick={handleClick}>
+                  {t.buttonText}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ):
+      (
         <div className="flex flex-col items-center w-full px-4">
           <div className="relative w-full max-w-5xl flex justify-between items-center ">
             <div className="absolute left-[12.5%] right-[12.5%] h-1 z-0 bg-[#008C67]" />
@@ -172,7 +248,7 @@ const Stages = ({
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-5xl text-center">
+          <div className="grid grid-cols-4 gap-6 w-full max-w-5xl text-center">
             <div>
               <p className="text-[#008C67] h-12">{t.steps[0]}</p>
               <img src={imgStage1D} alt="Stage 1" className="ml-12 w-37" />

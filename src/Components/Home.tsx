@@ -4,8 +4,9 @@ import imgBandsM from "../assets/img/imgBandsM.png";
 import FaqAccordion from "./FaqAccordion";
 import Stages from "./Stages";
 import Bands from "./BandSection";
-import useIsMobile from "../Hooks/useIsMobile";
+// import useIsMobile from "../Hooks/useIsMobile";
 import { translations } from "../utils/translation";
+import useScreenSize from "../Hooks/useScreenSize";
 
 const Home = () => {
   const [showInitialContent, setShowInitialContent] = useState(true);
@@ -13,7 +14,7 @@ const Home = () => {
     null
   );
   const [language, setLanguage] = useState<"ES" | "EN">("ES");
-  const isMobile = useIsMobile(501);
+  const { isMobile, isTablet, isDesktop } = useScreenSize();
   const t = translations[language];
 
   const ImgBands = isMobile ? imgBandsM : imgBandsD;
@@ -28,8 +29,9 @@ const Home = () => {
       {showInitialContent ? (
         <>
           <h1 className="text-4xl font-bold text-black-500">{t.home.title}</h1>
-          <span className="text-lg">{t.home.selectLang}</span>
-
+          
+          {/* DESCOMENTAR PARA ACTIVAR ELECCION IDIOMA */}
+          {/* <span className="text-lg">{t.home.selectLang}</span>
           <div className="relative inline-block">
             <select
               value={language}
@@ -42,7 +44,8 @@ const Home = () => {
             <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-700">
               ▼
             </div>
-          </div>
+          
+          </div> */}
 
           <Stages
             language={language}
@@ -82,7 +85,7 @@ const Home = () => {
           </div>
         </>
       ) : (
-        componenteFinal && <div className="mt-10 w-full">{componenteFinal}</div>
+        componenteFinal && <div className="w-full">{componenteFinal}</div>
       )}
     </div>
   );
