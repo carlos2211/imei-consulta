@@ -163,7 +163,7 @@ const Stages = ({
       : isTablet ? (
         <div className="relative flex flex-col items-start max-w-5xl w-full mb-10">
           <div className="relative w-full max-w-5xl flex justify-between items-center ">
-            <div className="absolute left-[12.5%] right-[12.5%] h-1 z-0 bg-amber-700" />
+            <div className="absolute left-[12.5%] right-[12.5%] h-1 z-0 bg-[#008C67]" />
             {[1, 2, 3, 4].map((num) => (
               <div
                 key={num}
